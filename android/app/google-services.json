@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "732017769877",
+    "project_id": "agronxt-2d15f",
+    "storage_bucket": "agronxt-2d15f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732017769877:android:7b7362bd6d6723dd278a9c",
+        "android_client_info": {
+          "package_name": "com.example.agro_nxt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH3vlyF0cYab-Sr0uSctBsmNp1A1VTmf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
