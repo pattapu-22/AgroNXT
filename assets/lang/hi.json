@@ -2,5 +2,6 @@
   "hello": "नमस्ते",
   "logout": "लॉग आउट",
   "name": "नाम",
-  "farmer_assist": "किसान सहायक"
+  "farmer_assist": "किसान सहायक",
+  "welcome_msg" : "फिर से स्वागत है, किसान जी!"
 }

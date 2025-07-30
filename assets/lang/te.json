@@ -2,5 +2,6 @@
   "hello": "హలో",
   "logout": "లాగ్ అవుట్",
   "name": "పేరు",
-  "farmer_assist": "రైతు సహాయం"
+  "farmer_assist": "రైతు సహాయం",
+  "welcome_msg" : "మళ్లీ స్వాగతం, రైతు గారూ!"
 }

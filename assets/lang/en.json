@@ -2,5 +2,7 @@
   "hello": "Hello",
   "logout": "Logout",
   "name": "Name",
-  "farmer_assist": "Farmer Assist"
+  "farmer_assist": "Farmer Assist",
+  "welcome_msg" : "Welcome back, Farmer!"
+
 }
