@@ -1,5 +1,6 @@
 // // screens/signin_page.dart
 // import 'package:flutter/material.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 // import '../widgets/custom_button.dart';
 // import '../widgets/custom_text_field.dart';
 //
@@ -28,14 +29,29 @@
 //     super.dispose();
 //   }
 //
-//   void _handleSignIn() {
-//     if (_formKey.currentState!.validate()) {
-//       // TODO: Implement actual sign up logic
+//   Future<void> registerWithEmail(String email, String password) async {
+//     try {
+//       await FirebaseAuth.instance.createUserWithEmailAndPassword(
+//         email: email,
+//         password: password,
+//       );
+//       print("Registration Successful");
 //       Navigator.pushNamedAndRemoveUntil(
 //         context,
 //         '/home',
 //         (route) => false,
 //       );
+//     } on FirebaseAuthException catch (e) {
+//       print("Error: ${e.message}");
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text(e.message ?? "Registration failed")),
+//       );
+//     }
+//   }
+//
+//   void _handleSignIn() {
+//     if (_formKey.currentState!.validate()) {
+//       registerWithEmail(_emailController.text, _passwordController.text);
 //     }
 //   }
 //
@@ -197,9 +213,9 @@
 //     );
 //   }
 // }
-// screens/signin_page.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 
@@ -243,7 +259,7 @@ class _SignInPageState extends State<SignInPage> {
     } on FirebaseAuthException catch (e) {
       print("Error: ${e.message}");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? "Registration failed")),
+        SnackBar(content: Text(e.message ?? "Registration failed".tr())),
       );
     }
   }
@@ -258,7 +274,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up'),
+        title: Text('sign_up'.tr()),
         backgroundColor: Colors.transparent,
         elevation: 0,
         foregroundColor: Theme.of(context).primaryColor,
@@ -275,25 +291,25 @@ class _SignInPageState extends State<SignInPage> {
 
                 // Create account text
                 Text(
-                  'Create Account',
+                  'create_account'.tr(),
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Fill in your details to get started',
+                  'fill_details'.tr(),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 48),
 
                 // Name field
                 CustomTextField(
-                  hintText: 'Enter your full name',
-                  labelText: 'Full Name',
+                  hintText: 'enter_full_name'.tr(),
+                  labelText: 'full_name'.tr(),
                   controller: _nameController,
                   prefixIcon: Icons.person,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
+                      return 'please_enter_name'.tr();
                     }
                     return null;
                   },
@@ -302,18 +318,18 @@ class _SignInPageState extends State<SignInPage> {
 
                 // Email field
                 CustomTextField(
-                  hintText: 'Enter your email',
-                  labelText: 'Email',
+                  hintText: 'enter_email'.tr(),
+                  labelText: 'email'.tr(),
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: Icons.email,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
+                      return 'please_enter_email'.tr();
                     }
                     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                         .hasMatch(value)) {
-                      return 'Please enter a valid email';
+                      return 'please_enter_valid_email'.tr();
                     }
                     return null;
                   },
@@ -322,17 +338,17 @@ class _SignInPageState extends State<SignInPage> {
 
                 // Phone field
                 CustomTextField(
-                  hintText: 'Enter your phone number',
-                  labelText: 'Phone Number',
+                  hintText: 'enter_phone'.tr(),
+                  labelText: 'phone_number'.tr(),
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
                   prefixIcon: Icons.phone,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your phone number';
+                      return 'please_enter_phone'.tr();
                     }
                     if (value.length < 10) {
-                      return 'Please enter a valid phone number';
+                      return 'please_enter_valid_phone'.tr();
                     }
                     return null;
                   },
@@ -341,17 +357,17 @@ class _SignInPageState extends State<SignInPage> {
 
                 // Password field
                 CustomTextField(
-                  hintText: 'Enter your password',
-                  labelText: 'Password',
+                  hintText: 'enter_password'.tr(),
+                  labelText: 'password'.tr(),
                   controller: _passwordController,
                   isPassword: true,
                   prefixIcon: Icons.lock,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
+                      return 'please_enter_password'.tr();
                     }
                     if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
+                      return 'password_min_length'.tr();
                     }
                     return null;
                   },
@@ -360,17 +376,17 @@ class _SignInPageState extends State<SignInPage> {
 
                 // Confirm password field
                 CustomTextField(
-                  hintText: 'Confirm your password',
-                  labelText: 'Confirm Password',
+                  hintText: 'confirm_password'.tr(),
+                  labelText: 'confirm_password_label'.tr(),
                   controller: _confirmPasswordController,
                   isPassword: true,
                   prefixIcon: Icons.lock_outline,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
+                      return 'please_confirm_password'.tr();
                     }
                     if (value != _passwordController.text) {
-                      return 'Passwords do not match';
+                      return 'passwords_not_match'.tr();
                     }
                     return null;
                   },
@@ -379,7 +395,7 @@ class _SignInPageState extends State<SignInPage> {
 
                 // Sign up button
                 CustomButton(
-                  text: 'Sign Up',
+                  text: 'sign_up'.tr(),
                   onPressed: _handleSignIn,
                   icon: Icons.person_add,
                 ),
@@ -389,13 +405,13 @@ class _SignInPageState extends State<SignInPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Already have an account? "),
+                    Text("already_have_account".tr()),
                     TextButton(
                       onPressed: () {
                         Navigator.pushReplacementNamed(context, '/login');
                       },
                       child: Text(
-                        'Login',
+                        'login'.tr(),
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.bold,

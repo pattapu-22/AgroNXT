@@ -1,5 +1,6 @@
 // // screens/login_page.dart
 // import 'package:flutter/material.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 // import '../widgets/custom_button.dart';
 // import '../widgets/custom_text_field.dart';
 //
@@ -22,14 +23,29 @@
 //     super.dispose();
 //   }
 //
-//   void _handleLogin() {
-//     if (_formKey.currentState!.validate()) {
-//       // TODO: Implement actual login logic
+//   Future<void> loginWithEmail(String email, String password) async {
+//     try {
+//       await FirebaseAuth.instance.signInWithEmailAndPassword(
+//         email: email,
+//         password: password,
+//       );
+//       print("Login Successful");
 //       Navigator.pushNamedAndRemoveUntil(
 //         context,
 //         '/home',
 //         (route) => false,
 //       );
+//     } on FirebaseAuthException catch (e) {
+//       print("Error: ${e.message}");
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text(e.message ?? "Login failed")),
+//       );
+//     }
+//   }
+//
+//   void _handleLogin() {
+//     if (_formKey.currentState!.validate()) {
+//       loginWithEmail(_emailController.text, _passwordController.text);
 //     }
 //   }
 //
@@ -155,9 +171,9 @@
 //     );
 //   }
 // }
-// screens/login_page.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 
@@ -195,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
     } on FirebaseAuthException catch (e) {
       print("Error: ${e.message}");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? "Login failed")),
+        SnackBar(content: Text(e.message ?? "login_failed".tr())),
       );
     }
   }
@@ -210,7 +226,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: Text('login'.tr()),
         backgroundColor: Colors.transparent,
         elevation: 0,
         foregroundColor: Theme.of(context).primaryColor,
@@ -227,30 +243,30 @@ class _LoginPageState extends State<LoginPage> {
 
                 // Welcome back text
                 Text(
-                  'Welcome Back!',
+                  'welcome_back'.tr(),
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Sign in to continue to your account',
+                  'sign_in_continue'.tr(),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 48),
 
                 // Email field
                 CustomTextField(
-                  hintText: 'Enter your email',
-                  labelText: 'Email',
+                  hintText: 'enter_email'.tr(),
+                  labelText: 'email'.tr(),
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: Icons.email,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
+                      return 'please_enter_email'.tr();
                     }
                     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                         .hasMatch(value)) {
-                      return 'Please enter a valid email';
+                      return 'please_enter_valid_email'.tr();
                     }
                     return null;
                   },
@@ -259,17 +275,17 @@ class _LoginPageState extends State<LoginPage> {
 
                 // Password field
                 CustomTextField(
-                  hintText: 'Enter your password',
-                  labelText: 'Password',
+                  hintText: 'enter_password'.tr(),
+                  labelText: 'password'.tr(),
                   controller: _passwordController,
                   isPassword: true,
                   prefixIcon: Icons.lock,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
+                      return 'please_enter_password'.tr();
                     }
                     if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
+                      return 'password_min_length'.tr();
                     }
                     return null;
                   },
@@ -284,7 +300,7 @@ class _LoginPageState extends State<LoginPage> {
                       // TODO: Implement forgot password
                     },
                     child: Text(
-                      'Forgot Password?',
+                      'forgot_password'.tr(),
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                       ),
@@ -295,7 +311,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 // Login button
                 CustomButton(
-                  text: 'Login',
+                  text: 'login'.tr(),
                   onPressed: _handleLogin,
                   icon: Icons.login,
                 ),
@@ -305,13 +321,13 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account? "),
+                    Text("dont_have_account".tr()),
                     TextButton(
                       onPressed: () {
                         Navigator.pushReplacementNamed(context, '/signin');
                       },
                       child: Text(
-                        'Sign Up',
+                        'sign_up'.tr(),
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.bold,
