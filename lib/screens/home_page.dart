@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _confirmLogout(BuildContext context) {
+  void _confirmLogout(BuildContext context) async {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -103,6 +103,8 @@ class _HomePageState extends State<HomePage> {
           TextButton(
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setBool('isLoggedIn', false); // Clear login state
               Navigator.of(context)
                   .pushNamedAndRemoveUntil('/initial', (route) => false);
             },
